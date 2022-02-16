@@ -1,20 +1,20 @@
 import random
 
-def camino_borracho(pasos):
-    origen=(0,0)
-    coordenada_actual=origen
+def drunkman_path(steps):
+    origin=(0,0)
+    current_coordinate=origin
     
-    for _ in range(pasos):
+    for _ in range(steps):
         delta_x, delta_y = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
-        coordenada_nueva_x=coordenada_actual[0]+delta_x
-        coordenada_nueva_y=coordenada_actual[1]+delta_y
-        coordenada_actual = (coordenada_nueva_x,coordenada_nueva_y)
+        new_coordinate_x=current_coordinate[0]+delta_x
+        new_coordinate_y=current_coordinate[1]+delta_y
+        current_coordinate = (new_coordinate_x,new_coordinate_y)
 
-    distancia_final_x=coordenada_actual[0]
-    distancia_final_y=coordenada_actual[1]
-    distancia_final=((distancia_final_x)**2+(distancia_final_y)**2)**0.5
+    total_distance_x=current_coordinate[0]
+    total_distance_y=current_coordinate[1]
+    total_distance=((total_distance_x)**2+(total_distance_y)**2)**0.5
 
-    return distancia_final
+    return total_distance
 
-d=camino_borracho(5)
+d=drunkman_path(5)
 print(d)
