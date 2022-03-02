@@ -2,7 +2,7 @@ import random
 import statistics
 from bokeh.plotting import figure, show
 # from bokeh.layouts import gridplot
-from bokeh.io import export_png
+# from bokeh.io import export_png
 
 # import numpy as np
 
