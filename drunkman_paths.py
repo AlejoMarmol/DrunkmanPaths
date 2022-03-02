@@ -1,15 +1,17 @@
 import random
 import statistics
-from bokeh.plotting import figure, show
-# from bokeh.layouts import gridplot
-# from bokeh.io import export_png
+import matplotlib.pyplot as plt
 
 # import numpy as np
 
 def drunkman_paths(n_steps, n_trials, n_graphs):
+    
     distances_l=[]
-    i_graph_l=random.sample(range(0,trials),n_graphs) #remember to handle error
+    coordinates_l=[[],[]]
+    i_graph_l=random.sample(range(0,n_trials),n_graphs) #remember to handle error
+    i_graph_l.sort()
     print(i_graph_l)
+    p=0
     for j in range(n_trials):
         coordinates_x_l=[]
         coordinates_y_l=[]
@@ -31,16 +33,28 @@ def drunkman_paths(n_steps, n_trials, n_graphs):
         total_distance=((total_distance_x)**2+(total_distance_y)**2)**0.5
 
         distances_l.append(total_distance)
-    
+
+        
         if j in i_graph_l:
-            plot = figure(title=(f"plot_{j}"))
-            plot.line(coordinates_x_l,coordinates_y_l)
-            show(plot)
-            # export_png(plot, filename=(f"plot_{j}'.png"))
+            coordinates_l[0].append(coordinates_x_l)
+            coordinates_l[1].append(coordinates_y_l)
+        
         
     distance_mean=statistics.mean(distances_l)
     distance_max=max(distances_l)
     distance_min=min(distances_l)
+    
+    plt.subplot(311)
+    plt.plot(coordinates_l[0][0],coordinates_l[1][0])
+    plt.xlabel(f'plot {i_graph_l[0]}')
+    plt.subplot(312)
+    plt.plot(coordinates_l[0][1],coordinates_l[1][1])
+    plt.xlabel(f'plot {i_graph_l[1]}')
+    plt.subplot(313)
+    plt.plot(coordinates_l[0][2],coordinates_l[1][2])
+    plt.xlabel(f'plot {i_graph_l[2]}')
+    plt.show()
+    
 
     return distance_mean, distance_max, distance_min
 
