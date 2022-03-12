@@ -1,6 +1,7 @@
 import random
 import statistics
 import matplotlib.pyplot as plt
+import numpy as np
 
 # import numpy as np
 
@@ -46,6 +47,10 @@ def drunkman_paths(n_steps, n_trials, n_graphs):
     
     plt.subplot(311)
     plt.plot(coordinates_l[0][0],coordinates_l[1][0])
+    final_position_a=np.array([coordinates_l[0][0][-1]-origin_t[0],coordinates_l[1][0][-1]-origin_t[1]])
+    print(final_position_a)
+    # plt.quiver(final_position_a)
+    plt.plot([0,final_position_a[0]],[0,final_position_a[1]])
     plt.xlabel(f'plot {i_graph_l[0]}')
     plt.subplot(312)
     plt.plot(coordinates_l[0][1],coordinates_l[1][1])
