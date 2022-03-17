@@ -17,8 +17,23 @@ class Drunkman_traditional(Drunkman):
     def walk(self):
         return random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
 
+class Coordinate:
 
-def drunkman_paths(n_steps_l, n_trials, n_graphs):
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+
+    def move(self,delta_x,delta_y):
+        return Coordinate(self.x + delta_x, self.y + delta_y)
+
+    def distance(self, another_coordinate):
+        delta_x=self.x - another_coordinate.x
+        delta_y=self.y - another_coordinate.y
+
+        return (delta_x**2 + delta_y**2)**0.5
+
+
+def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
 
     drunkman_C=Drunkman_traditional(name='Rosalio')
 
@@ -37,22 +52,21 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs):
         for _ in range(n_trials):
             coordinates_x_l=[]
             coordinates_y_l=[]
-            origin_t=(0,0)
-            current_coordinate_t=origin_t
-            coordinates_x_l.append(origin_t[0])
-            coordinates_y_l.append(origin_t[1])
+            origin_C = Coordinate(origin_t[0],origin_t[1])
+            current_coordinate_C=Coordinate(origin_C.x,origin_C.y)
+            coordinates_x_l.append(origin_C.x)
+            coordinates_y_l.append(origin_C.y)
             
             for _ in range(n_steps):
                 delta_x, delta_y = drunkman_C.walk()
-                new_coordinate_x=current_coordinate_t[0]+delta_x
-                new_coordinate_y=current_coordinate_t[1]+delta_y
-                current_coordinate_t = (new_coordinate_x,new_coordinate_y)
-                coordinates_x_l.append(new_coordinate_x)
-                coordinates_y_l.append(new_coordinate_y)
+                new_coordinate_C = current_coordinate_C.move(delta_x,delta_y)
+                coordinates_x_l.append(new_coordinate_C.x)
+                coordinates_y_l.append(new_coordinate_C.y)
+                current_coordinate_C.x = new_coordinate_C.x
+                current_coordinate_C.y = new_coordinate_C.y
             
-            total_distance_x=current_coordinate_t[0]-origin_t[0]
-            total_distance_y=current_coordinate_t[1]-origin_t[1]
-            total_distance=((total_distance_x)**2+(total_distance_y)**2)**0.5
+            final_coordinate_C = current_coordinate_C
+            total_distance = final_coordinate_C.distance(origin_C)
 
             distances_l.append(total_distance)
 
@@ -99,7 +113,7 @@ if __name__=="__main__":
     n_steps_l=[10, 100, 1000, 10000]
     trials=10
     n_graphs=3
-    d_m_l,d_max_l,d_min_l=drunkman_paths(n_steps_l,trials,n_graphs)
+    d_m_l,d_max_l,d_min_l=drunkman_paths(n_steps_l,trials,n_graphs,origin_t=(0,0))
     # print(f'random path of {steps} steps with {trials} trials')
     # print(f'Mean = {d_m_l}')
     # print(f'Max = {d_max_l}')
