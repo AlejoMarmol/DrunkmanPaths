@@ -32,10 +32,31 @@ class Coordinate:
 
         return (delta_x**2 + delta_y**2)**0.5
 
+class Field:
+    def __init__(self,name):
+        self.drunkman_coordinates_d={}
+        self.name=name
+    
+    def add_drunkman(self, drunkman_C, coordinate_C):
+        self.drunkman_coordinates_d[drunkman_C] = coordinate_C
+    
+    def move_drunkman(self, drunkman_C):
+        delta_x, delta_y = drunkman_C.walk()
+        current_coordinate_C = self.drunkman_coordinates_d[drunkman_C]
+        new_coordinate_C = current_coordinate_C.move(delta_x,delta_y)
+        self.drunkman_coordinates_d[drunkman_C] = new_coordinate_C
+
+        return new_coordinate_C
+    
+    def obtain_coordinates(self,drunkman_C):
+        return self.drunkman_coordinates_d[drunkman_C]
+
 
 def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
 
     drunkman_C=Drunkman_traditional(name='Rosalio')
+    origin_C = Coordinate(origin_t[0],origin_t[1])
+    field_C=Field(name='Madrid')
 
     distance_mean_l=[]
     distance_max_l=[]
@@ -52,18 +73,15 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
         for _ in range(n_trials):
             coordinates_x_l=[]
             coordinates_y_l=[]
-            origin_C = Coordinate(origin_t[0],origin_t[1])
-            current_coordinate_C=Coordinate(origin_C.x,origin_C.y)
+            field_C.add_drunkman(drunkman_C,origin_C)
             coordinates_x_l.append(origin_C.x)
             coordinates_y_l.append(origin_C.y)
             
             for _ in range(n_steps):
-                delta_x, delta_y = drunkman_C.walk()
-                new_coordinate_C = current_coordinate_C.move(delta_x,delta_y)
+                new_coordinate_C = field_C.move_drunkman(drunkman_C)
                 coordinates_x_l.append(new_coordinate_C.x)
                 coordinates_y_l.append(new_coordinate_C.y)
-                current_coordinate_C.x = new_coordinate_C.x
-                current_coordinate_C.y = new_coordinate_C.y
+                current_coordinate_C=field_C.obtain_coordinates(drunkman_C)
             
             final_coordinate_C = current_coordinate_C
             total_distance = final_coordinate_C.distance(origin_C)
