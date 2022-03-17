@@ -5,7 +5,22 @@ import numpy as np
 
 # import numpy as np
 
+class Drunkman:
+
+    def __init__(self, name):
+        self.name=name
+
+class Drunkman_traditional(Drunkman):
+    def __init__(self, name):
+        super().__init__(name)
+    
+    def walk(self):
+        return random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
+
+
 def drunkman_paths(n_steps_l, n_trials, n_graphs):
+
+    drunkman_C=Drunkman_traditional(name='Rosalio')
 
     distance_mean_l=[]
     distance_max_l=[]
@@ -28,7 +43,7 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs):
             coordinates_y_l.append(origin_t[1])
             
             for _ in range(n_steps):
-                delta_x, delta_y = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
+                delta_x, delta_y = drunkman_C.walk()
                 new_coordinate_x=current_coordinate_t[0]+delta_x
                 new_coordinate_y=current_coordinate_t[1]+delta_y
                 current_coordinate_t = (new_coordinate_x,new_coordinate_y)
@@ -54,6 +69,11 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs):
         distance_mean_l.append(distance_mean)
         distance_max_l.append(distance_max)
         distance_min_l.append(distance_min)
+
+        print(f'a random path from the drunkman {drunkman_C.name} of {n_steps} steps obtains:')
+        print(f'Mean = {distance_mean}')
+        print(f'Max = {distance_max}')
+        print(f'Min = {distance_min}')
 
     
     
@@ -81,6 +101,6 @@ if __name__=="__main__":
     n_graphs=3
     d_m_l,d_max_l,d_min_l=drunkman_paths(n_steps_l,trials,n_graphs)
     # print(f'random path of {steps} steps with {trials} trials')
-    print(f'Mean = {d_m_l}')
-    print(f'Max = {d_max_l}')
-    print(f'Min = {d_min_l}')
+    # print(f'Mean = {d_m_l}')
+    # print(f'Max = {d_max_l}')
+    # print(f'Min = {d_min_l}')
