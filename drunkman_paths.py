@@ -54,7 +54,7 @@ class Field:
 
 def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
 
-    drunkman_C=Drunkman_traditional(name='Rosalio')
+    drunkman_C=Drunkman_traditional(name='Rosalia')
     origin_C = Coordinate(origin_t[0],origin_t[1])
     field_C=Field(name='Madrid')
 
