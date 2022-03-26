@@ -1,56 +1,12 @@
 import random
+from Drunkman import Drunkman_traditional
+from Coordinate import Coordinate
+from Field import Field
 import statistics
 import matplotlib.pyplot as plt
 import numpy as np
 
 # import numpy as np
-
-class Drunkman:
-
-    def __init__(self, name):
-        self.name=name
-
-class Drunkman_traditional(Drunkman):
-    def __init__(self, name):
-        super().__init__(name)
-    
-    def walk(self):
-        return random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
-
-class Coordinate:
-
-    def __init__(self,x,y):
-        self.x=x
-        self.y=y
-
-    def move(self,delta_x,delta_y):
-        return Coordinate(self.x + delta_x, self.y + delta_y)
-
-    def distance(self, another_coordinate):
-        delta_x=self.x - another_coordinate.x
-        delta_y=self.y - another_coordinate.y
-
-        return (delta_x**2 + delta_y**2)**0.5
-
-class Field:
-    def __init__(self,name):
-        self.drunkman_coordinates_d={}
-        self.name=name
-    
-    def add_drunkman(self, drunkman_C, coordinate_C):
-        self.drunkman_coordinates_d[drunkman_C] = coordinate_C
-    
-    def move_drunkman(self, drunkman_C):
-        delta_x, delta_y = drunkman_C.walk()
-        current_coordinate_C = self.drunkman_coordinates_d[drunkman_C]
-        new_coordinate_C = current_coordinate_C.move(delta_x,delta_y)
-        self.drunkman_coordinates_d[drunkman_C] = new_coordinate_C
-
-        return new_coordinate_C
-    
-    def obtain_coordinates(self,drunkman_C):
-        return self.drunkman_coordinates_d[drunkman_C]
-
 
 def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
 
