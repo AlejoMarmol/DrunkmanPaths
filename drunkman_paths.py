@@ -27,6 +27,8 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
         i_graph_l.sort()
         print(i_graph_l)
         pp=1
+        plt.figure()
+        plt.suptitle(f"Drunkman path for {n_steps} steps")
         # p=0
         for p in range(n_trials):
             coordinates_x_l=[]
@@ -50,17 +52,19 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
             if p in i_graph_l:
                 # coordinates_l[0].append(coordinates_x_l)
                 # coordinates_l[1].append(coordinates_y_l)
-                plt.figure()
+                
+                plt.subplot(n_graphs,1,pp)
                 plt.plot(coordinates_x_l,coordinates_y_l, 'k')
                 plt.arrow(origin_C.x,origin_C.y,final_coordinate_C.x , final_coordinate_C.y , width=0.01 ,color='r')
-                plt.title(f"Drunkman path for trial {p} of {n_trials} with {n_steps} steps")
+                
                 plt.xlabel('x')
                 plt.ylabel('y')
                 plt.grid(True)
-                plt.savefig(f"paths_plots/Drunkman path for trial {pp} of {n_trials} with {n_steps} steps.png")
+                
                 pp=pp+1
             
             
+        plt.savefig(f"paths_plots/Drunkman path for trial {pp} of {n_trials} with {n_steps} steps.png")
         distance_mean=statistics.mean(distances_l)
         distance_max=max(distances_l)
         distance_min=min(distances_l)
