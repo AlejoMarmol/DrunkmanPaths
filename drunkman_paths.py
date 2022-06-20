@@ -1,4 +1,5 @@
 import random
+from turtle import color, width
 from Drunkman import Drunkman_traditional
 from Coordinate import Coordinate
 from Field import Field
@@ -22,11 +23,12 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
 
         distances_l=[]
         coordinates_l=[[],[]]
-        # i_graph_l=random.sample(range(0,n_trials),n_graphs) #remember to handle error
-        # i_graph_l.sort()
-        # print(i_graph_l)
+        i_graph_l=random.sample(range(0,n_trials),n_graphs) #remember to handle error
+        i_graph_l.sort()
+        print(i_graph_l)
+        pp=1
         # p=0
-        for _ in range(n_trials):
+        for p in range(n_trials):
             coordinates_x_l=[]
             coordinates_y_l=[]
             field_C.add_drunkman(drunkman_C,origin_C)
@@ -45,9 +47,18 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
             distances_l.append(total_distance)
 
             
-            # if j in i_graph_l:
-            #     coordinates_l[0].append(coordinates_x_l)
-            #     coordinates_l[1].append(coordinates_y_l)
+            if p in i_graph_l:
+                # coordinates_l[0].append(coordinates_x_l)
+                # coordinates_l[1].append(coordinates_y_l)
+                plt.figure()
+                plt.plot(coordinates_x_l,coordinates_y_l, 'k')
+                plt.arrow(origin_C.x,origin_C.y,final_coordinate_C.x , final_coordinate_C.y , width=0.01 ,color='r')
+                plt.title(f"Drunkman path for trial {p} of {n_trials} with {n_steps} steps")
+                plt.xlabel('x')
+                plt.ylabel('y')
+                plt.grid(True)
+                plt.savefig(f"paths_plots/Drunkman path for trial {pp} of {n_trials} with {n_steps} steps.png")
+                pp=pp+1
             
             
         distance_mean=statistics.mean(distances_l)

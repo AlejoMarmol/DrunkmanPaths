@@ -2,3 +2,4 @@ venv/
 experiments.ipynb
 drunkman_paths.html
 __pycache__/
+paths_plots/
