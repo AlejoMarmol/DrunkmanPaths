@@ -6,6 +6,8 @@ from Field import Field
 import statistics
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+
 
 # import numpy as np
 
@@ -18,6 +20,10 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
     distance_mean_l=[]
     distance_max_l=[]
     distance_min_l=[]
+
+
+
+    # columns_l = 
 
     for n_steps in n_steps_l:
 
@@ -59,6 +65,7 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
                 
                 plt.xlabel('x')
                 plt.ylabel('y')
+
                 plt.grid(True)
                 
                 pp=pp+1
@@ -77,6 +84,13 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
         print(f'Mean = {distance_mean}')
         print(f'Max = {distance_max}')
         print(f'Min = {distance_min}')
+    
+    drunkman_df = pd.DataFrame(columns=['Steps','Mean','Max','Min'])
+    drunkman_df["Steps"] = n_steps_l
+    drunkman_df["Mean"] = distance_mean_l
+    drunkman_df["Max"] = distance_max_l
+    drunkman_df["Min"] = distance_min_l
+    drunkman_df.to_excel("drunkman_paths.xlsx")
 
       
     return distance_mean_l, distance_max_l, distance_min_l
