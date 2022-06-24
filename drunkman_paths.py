@@ -6,6 +6,8 @@ from Field import Field
 import statistics
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+
 
 # import numpy as np
 
@@ -19,6 +21,10 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
     distance_max_l=[]
     distance_min_l=[]
 
+
+
+    # columns_l = 
+
     for n_steps in n_steps_l:
 
         distances_l=[]
@@ -27,6 +33,8 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
         i_graph_l.sort()
         print(i_graph_l)
         pp=1
+        plt.figure()
+        plt.suptitle(f"Drunkman path for {n_steps} steps")
         # p=0
         for p in range(n_trials):
             coordinates_x_l=[]
@@ -46,11 +54,24 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
 
             distances_l.append(total_distance)
 
+            
             if p in i_graph_l:
-                drunkman_C.plot_path(coordinates_x_l, coordinates_y_l, origin_C.x, origin_C.y, final_coordinate_C.x, final_coordinate_C.y, pp, p, n_trials, n_steps)
+                # coordinates_l[0].append(coordinates_x_l)
+                # coordinates_l[1].append(coordinates_y_l)
+                
+                plt.subplot(n_graphs,1,pp)
+                plt.plot(coordinates_x_l,coordinates_y_l, 'k')
+                plt.arrow(origin_C.x,origin_C.y,final_coordinate_C.x , final_coordinate_C.y , width=0.01 ,color='r')
+                
+                plt.xlabel('x')
+                plt.ylabel('y')
+
+                plt.grid(True)
+                
                 pp=pp+1
             
             
+        plt.savefig(f"paths_plots/Drunkman path for trial {pp} of {n_trials} with {n_steps} steps.png")
         distance_mean=statistics.mean(distances_l)
         distance_max=max(distances_l)
         distance_min=min(distances_l)
@@ -63,6 +84,13 @@ def drunkman_paths(n_steps_l, n_trials, n_graphs,origin_t):
         print(f'Mean = {distance_mean}')
         print(f'Max = {distance_max}')
         print(f'Min = {distance_min}')
+    
+    drunkman_df = pd.DataFrame(columns=['Steps','Mean','Max','Min'])
+    drunkman_df["Steps"] = n_steps_l
+    drunkman_df["Mean"] = distance_mean_l
+    drunkman_df["Max"] = distance_max_l
+    drunkman_df["Min"] = distance_min_l
+    drunkman_df.to_excel("drunkman_paths.xlsx")
 
       
     return distance_mean_l, distance_max_l, distance_min_l
